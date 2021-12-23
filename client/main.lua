@@ -1,3 +1,4 @@
+local QBCore = exports['qb-core']:GetCoreObject()
 local wheelPos = Config.WheelPos
 local vehPos = Config.VehPos
 local wheel = nil
@@ -14,7 +15,7 @@ RegisterNetEvent('QBCore:Client:OnPlayerUnload')
 AddEventHandler('QBCore:Client:OnPlayerUnload', function()
     isLoggedIn = false
 end)
-
+-- This Function loads the Wheel and the winnable car.
 Citizen.CreateThread(function()
     local model = `vw_prop_vw_luckywheel_02a`
     local carmodel = Config.Vehicle
@@ -32,7 +33,7 @@ Citizen.CreateThread(function()
                 Citizen.Wait(0)
             end
             wheel = CreateObject(model, wheelPos.x, wheelPos.y, wheelPos.z, false, false, true)
-            SetEntityHeading(wheel, 328.0)
+            SetEntityHeading(wheel, 360.0)
             SetModelAsNoLongerNeeded(model)
             
             -- Car
@@ -100,7 +101,7 @@ AddEventHandler('qb-luckywheel:doRoll', function(_priceIndex)
             rollspeed = speedIntCnt / 10
             local _y = retval.y - rollspeed
             _rollAngle = _rollAngle - rollspeed
-            SetEntityRotation(wheel, 0.0, _y, -30.9754, 2, true)
+            SetEntityRotation(wheel, 0.0, _y, 360.0, 2, true)
             Citizen.Wait(0)
         end
     end)
@@ -124,8 +125,8 @@ function doRoll()
             RequestAnimDict(lib)
             Citizen.Wait(100)
         end
-        local _movePos = vector3(948.32, 45.14, 71.64)
-        TaskGoStraightToCoord(playerPed, _movePos.x, _movePos.y, _movePos.z, 1.0, -1, 312.2, 0.0)
+        local _movePos = vector3(1110.24, 229.0, -49.64)
+        TaskGoStraightToCoord(playerPed, _movePos.x, _movePos.y, _movePos.z, 1.0, -1, 263.2, 0.0)
         local _isMoved = false
         while not _isMoved do
             local coords = GetEntityCoords(playerPed)
@@ -156,7 +157,7 @@ Citizen.CreateThread(function()
         Citizen.Wait(1)
         local coords = GetEntityCoords(PlayerPedId())
         if #(coords - vector3(wheelPos.x, wheelPos.y, wheelPos.z)) < 1.5 and not isRolling then
-            QBCore.Functions.DrawText3D(wheelPos.x, wheelPos.y, wheelPos.z + 1, 'Press ~p~E~w~ To Try Your Luck On The Wheel')
+            QBCore.Functions.DrawText3D(wheelPos.x, wheelPos.y - 1, wheelPos.z + 1, 'Try Your Luck! [~p~E~w~] ')
             if IsControlJustReleased(0, 38) then
                 doRoll()
             end
