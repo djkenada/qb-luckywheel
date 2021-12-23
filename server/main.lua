@@ -1,3 +1,4 @@
+local QBCore = exports['qb-core']:GetCoreObject()
 local isRoll = false
 local amount = Config.Amount
 local car = false
@@ -137,8 +138,6 @@ AddEventHandler('qb-luckywheel:getLucky', function()
         end
     end
 end)
-
-    
 
 RegisterServerEvent('qb-luckywheel:carRedeem')
 AddEventHandler('qb-luckywheel:carRedeem', function(vehicleProps)
